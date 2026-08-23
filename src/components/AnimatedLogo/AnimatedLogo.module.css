@@ -1,0 +1,70 @@
+.logoContainer {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.logoImage {
+  display: block;
+  width: auto;
+  height: 180px; 
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logoContainer:hover .logoImage {
+  transform: scale(1.02);
+}
+
+.waterOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* Mask it using the logo itself so the water only appears inside the graphic */
+  -webkit-mask-image: url('/aquacy_logo.png');
+  mask-image: url('/aquacy_logo.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  mix-blend-mode: color-dodge; /* Blends the water colors luminously with the dark blue and teal */
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.9;
+}
+
+.waterGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%; /* Only cover the top 65% (the graphic), avoiding the text at the bottom */
+  
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 200, 0) 0%,
+    rgba(0, 210, 255, 0.9) 25%,
+    rgba(0, 119, 255, 1) 50%,
+    rgba(0, 210, 255, 0.9) 75%,
+    rgba(0, 255, 200, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: flowWater 3s linear infinite;
+  
+  /* Soft fade at the bottom so it seamlessly blends out before the text */
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+@keyframes flowWater {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}

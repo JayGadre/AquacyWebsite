@@ -1,0 +1,181 @@
+[
+  {
+    "id": "ds-trp",
+    "title": "DS TRP",
+    "subtitle": "PROTECTED ROLLERS MULTI-JET METER",
+    "description": "DS TRP represents the ultimate multijet meter expression. Thanks to its mechanical transmission, it offers high metrological performance and is insensitive to external magnetic fields. Its “protected rollers” solution. Robust, long lasting and suitable for the most challenging environments, it is compatible with all types of water. It can be equipped with the latest remote data transmission technologies.",
+    "features": [
+      "Protected rollers multi-jet meter for cold water",
+      "Ideal for utilities and outdoor installations",
+      "MID-certified: Indian MID, IS 778 certified",
+      "DN: SIZES DN 15mm to 50mm",
+      "Mechanical transmission unaffected by external magnetic fields",
+      "Mineral glass lens",
+      "Number rollers, approval class and serial number are located in the protected part",
+      "Pre-equipped for optional reed switch (1P=1-10-100-1000L) or static pulse emitter (1P=1-10L)"
+    ],
+    "brochures": [
+      {
+        "title": "Datasheet",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/ds-trp_datasheet.pdf"
+      },
+      {
+        "title": "Installation Instructions",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/ds-trp_installation_instructions.pdf"
+      }
+    ]
+  },
+  {
+    "id": "ds-asd",
+    "title": "DS ASD/ASD-G",
+    "subtitle": "SUPERDRY MULTI-JET METER",
+    "description": "DS ASD/ASD G represents the classic solution for a multijet meter with magnetic transmission. It combines good metrological performance with high protection from external magnetic fields. Robust, long lasting and suitable for the most challenging environments, it is compatible with all types of water.",
+    "features": [
+      "Superdry multijet meter for cold water",
+      "Ideal for utilities and outdoor installations",
+      "MID-certified: ISO 4064",
+      "DN: 15mm & 20mm",
+      "High protection against external magnetic fields",
+      "Mineral glass lens"
+    ],
+    "brochures": [
+      {
+        "title": "Datasheet",
+        "url": "javascript:void(0);"
+      },
+      {
+        "title": "Installation Instructions",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/ds-trp_installation_instructions.pdf"
+      }
+    ]
+  },
+  {
+    "id": "composite-ds-trp",
+    "title": "Composite DS TRP",
+    "subtitle": "(Patented, Patent No. 586842)",
+    "description": "COMPOSITE DS TRP\nEngineering Plastic Moulding (Body + Cap) with Patented Technology &\nProtected Rollers Multi-Jet Meter",
+    "features": [],
+    "brochures": [
+      {
+        "title": "Datasheet",
+        "url": "https://www.admmeters.com/wp-content/uploads/2026/06/COMPOSITE-DS-TRP-PRODUCT-CATALOGUE.pdf"
+      }
+    ]
+  },
+  {
+    "id": "electo-sonic",
+    "title": "ELECTO SONIC",
+    "subtitle": "ELECTRONIC ULTRASONIC METER",
+    "description": "ElecTo SONIC is the ultrasonic meter offering built-in data communication thanks to its innovative electronic register with multi-protocol radio communication facilities. It ensures excellent performance in all installation conditions and is insensitive to the chemical and physical characteristics of water. It is the ideal solution for Utility installations. Its wide 9-characters LCD display (digits and symbols) makes it very easy to read, while providing additional information to both users and operators. ElecTo SONIC supports remote data reading with fixed and mobile system, while offering maximum interoperability.",
+    "features": [
+      "Ultrasonic measuring technology",
+      "DN: 15mm to 50mm",
+      "MID certificate: R MAX 800",
+      "Health certifications available for a number of countries",
+      "IP68 protection rating",
+      "9-characters display (digits and symbols)",
+      "Datalogging with a storage capacity of over 11,000 values",
+      "Integrated wM-Bus and LoRaWAN radio (battery life with default configuration 16 years)",
+      "NB-IoT integrated radio available",
+      "Optimized antenna for maximum radio range",
+      "Fault detection: low water temperature, low battery, empty line / air, overconsumption, no consumption, reversed meter, leakage, backflow and expiry of testing period",
+      "Local NFC interface",
+      "Programming and testing kit available upon request",
+      "For further information on electronic register and radio transmission functions, please refer to the instruction manual"
+    ],
+    "brochures": [
+      {
+        "title": "Datasheet",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/ELECTO-SONIC.pdf"
+      },
+      {
+        "title": "Installation Instructions",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/electosonic-installation_instruction.pdf"
+      }
+    ]
+  },
+  {
+    "id": "wmap-evo",
+    "title": "WMAP EVO",
+    "subtitle": "AXIAL WOLTMANN METER",
+    "description": "WMAP Evo represents an excellent solution for large volume metering in the utility, industrial and commercial sectors. It provides good metrological performance and wide measuring range, while ensuring perfect readability over time thanks to its IP68 copper/glass register. Robust, long lasting and suitable for the most challenging environments, it is compatible with all types of water. It can be equipped with the latest remote data transmission technologies.",
+    "features": [
+      "Interchangeable mechanism axial Woltmann meter for cold water",
+      "Ideal for large volumes for utilities and industrial use",
+      "MID-certified: R max 250",
+      "DN: 50÷200",
+      "Health certifications available for a number of countries",
+      "High protection against external magnetic fields",
+      "Mineral glass lens",
+      "Sealed register (IP68 copper/glass) to prevent condensation",
+      "The register can be rotated",
+      "Can be provided fitted with wired or radio communication module",
+      "Pre-equipped for reed switch (DN 50÷100mm 1P=100L / DN 125÷200mm 1P=1000L) or static pulse emitter (DN 50÷100mm 1P=10L / DN 125÷200mm 1P=100L)"
+    ],
+    "brochures": [
+      {
+        "title": "Installation Instructions",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/wmap-evo_installation_instruction.pdf"
+      }
+    ]
+  },
+  {
+    "id": "e-bulk",
+    "title": "E-BULK",
+    "subtitle": "STATIC METER",
+    "description": "E-BULK is the modern solution for large volume metering in the utility, industrial and commercial sectors. Thanks to the ease of use of ultrasonic technology in these fields, E-BULK provides excellent levels of performance in all conditions of installation. Its extremely low starting flow rate, its wide measuring range and the absence of moving parts allow the accounting of the entire consumption, making it easier to identify leaks. E-BULK makes mechanical meters obsolete, particularly combined meters. Robust, long lasting and suitable for the most challenging environments. It can be equipped with the latest remote data transmission technologies.",
+    "features": [
+      "Ultrasonic meter for cold water",
+      "Ideal for large volumes for utilities and industrial use",
+      "MID-certified: R max 500",
+      "DN: 50÷300*",
+      "Optional 4-20mA analog output, 24V passive",
+      "Health certifications available for a number of countries",
+      "No moving parts",
+      "Can be installed in all positions while maintaining its metrological characteristics",
+      "Large display with information on volume, flow rate and alarms",
+      "IP68 protection rating",
+      "Battery life: 13 years",
+      "Can be provided fitted with wired (Split) or integrated radio communication module (wireless m-Bus)",
+      "Ready for pulse emitter (DN 50÷100) 1P=10L, (DN 125÷200) 1P=100L"
+    ],
+    "brochures": [
+      {
+        "title": "Datasheet",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/E-BULK.pdf"
+      },
+      {
+        "title": "Installation Instructions",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/en-5000087c-rev6.pdf"
+      }
+    ]
+  },
+  {
+    "id": "wt",
+    "title": "WT",
+    "subtitle": "TANGENTIAL HELIX WATER METER",
+    "description": "WT is an excellent solution for high-volume irrigation metering. Using a tangential helix, it offers good metrological performance, wide measuring range and excellent resistance over time, even when used with irrigation water. Easy readability thanks to its IP68 copper-glass register. Robust, long lasting and designed for the most challenging environments, it is suitable for both drinking and irrigation water. It can be equipped with the latest remote data transmission technologies.",
+    "features": [
+      "Woltmann tangential helix cold water meter",
+      "Ideal for large volume irrigation applications",
+      "Certified MID R max 40",
+      "DN: 50÷200",
+      "High protection against external magnetic fields",
+      "Mineral glass lens",
+      "Sealed register (IP68 copper/glass) to entirely prevent condensation issues",
+      "Can be provided fitted with wired or radio communication module",
+      "MID-certified also in the “delivery group” version (see specific illustrative material), and therefore part of a metering system that includes On-Off valve and flow limiter",
+      "Ready for reed switch pulse emitter (DN 50÷125 mm 1P=100 L / DN 150÷200 mm 1P=1000 L)"
+    ],
+    "brochures": [
+      {
+        "title": "Datasheet",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/WT.pdf"
+      },
+      {
+        "title": "Installation Instructions",
+        "url": "https://www.admmeters.com/wp-content/uploads/2024/07/5000043cinstallazionewt-it-en-fr-es-v2.pdf"
+      }
+    ]
+  }
+]

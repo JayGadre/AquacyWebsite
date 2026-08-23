@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1787159107656",
+    "date": "2026-08-19T17:05:07.000Z",
+    "name": "Vikram Gadre",
+    "email": "vikram.gadre@gmail.com",
+    "mobile": "9890800301",
+    "product": "DS TRP",
+    "requirement": "Need 10 Meters"
+  },
+  {
+    "id": "1787159310788",
+    "date": "2026-08-19T17:08:30.000Z",
+    "name": "Vikram Gadre",
+    "email": "vikram.gadre@gmail.com",
+    "mobile": "9890800301",
+    "product": "DS ASD/ASD-G",
+    "requirement": "Need 1000 Meters"
+  },
+  {
+    "id": "1787160544532",
+    "date": "2026-08-19T17:29:04.000Z",
+    "name": "Vikram Gadre",
+    "email": "vikram.gadre@gmail.com",
+    "mobile": "9890800301",
+    "product": "ELECTO SONIC",
+    "requirement": "Need 5000 Meters"
+  }
+]

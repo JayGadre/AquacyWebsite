@@ -1,0 +1,68 @@
+.footer {
+  background: var(--secondary);
+  padding: 4rem 0 2rem;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.brandInfo h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+}
+
+.brandInfo p {
+  font-size: 0.95rem;
+  max-width: 300px;
+}
+
+.linksColumn h4 {
+  color: var(--foreground);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.linksColumn ul {
+  list-style: none;
+  padding: 0;
+}
+
+.linksColumn li {
+  margin-bottom: 0.75rem;
+}
+
+.linksColumn a {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.linksColumn a:hover {
+  color: var(--primary);
+}
+
+.bottomBar {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.bottomBarLinks {
+  display: flex;
+  gap: 1.5rem;
+}
