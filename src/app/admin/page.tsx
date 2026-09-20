@@ -1,6 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import styles from './Dashboard.module.css';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Admin Dashboard | Aquacy India',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 interface Inquiry {
   id: string;

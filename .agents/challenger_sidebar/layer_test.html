@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @layer utilities {
+      .fixed { position: fixed; }
+      .md\:sticky { position: sticky; }
+    }
+    
+    .glass-card {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="fixed glass-card">This should be fixed but is relative.</div>
+</body>
+</html>

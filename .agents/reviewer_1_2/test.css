@@ -1,0 +1,4 @@
+@import "tailwindcss";
+.test {
+  @apply hover:translate-y-0;
+}

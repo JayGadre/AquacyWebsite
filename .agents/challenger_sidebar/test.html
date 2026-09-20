@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .glass-card {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .glass-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    /* Simulate Tailwind v4 translate utilities */
+    .-translate-x-full {
+      translate: -100% 0;
+    }
+    .translate-x-0 {
+      translate: 0 0;
+    }
+    .hover\:translate-y-0:hover {
+      translate: 0 0; /* Or whatever Tailwind maps it to */
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-card hover:translate-y-0 -translate-x-full">Test</div>
+</body>
+</html>

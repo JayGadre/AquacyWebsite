@@ -30,11 +30,13 @@ export default function LoginPage() {
               id="password" 
               name="password" 
               required 
+              aria-invalid={!!error}
+              aria-describedby={error ? "login-error" : undefined}
               placeholder="Enter admin password"
             />
           </div>
           
-          {error && <p className={styles.error}>{error}</p>}
+          {error && <p id="login-error" className={styles.error}>{error}</p>}
           
           <button type="submit" className={styles.submitBtn}>
             Login

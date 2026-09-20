@@ -3,6 +3,15 @@ import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
 
+interface InquiryData {
+  product: string;
+  name: string;
+  email: string;
+  mobile: string;
+  requirement: string;
+  date: string | number | Date;
+}
+
 export async function GET(request: Request) {
   // Simple auth to prevent random pings (in a real app, use a secret key header)
   const authHeader = request.headers.get('authorization');
@@ -37,7 +46,7 @@ export async function GET(request: Request) {
 
   // Filter inquiries from the last 24 hours
   const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-  const recentInquiries = inquiries.filter((inq: any) => new Date(inq.date) > oneDayAgo);
+  const recentInquiries = inquiries.filter((inq: InquiryData) => new Date(inq.date) > oneDayAgo);
   
   if (recentInquiries.length === 0) {
     return NextResponse.json({ message: 'No new inquiries in the last 24 hours' });
@@ -49,7 +58,7 @@ export async function GET(request: Request) {
       <h2 style="color: #00d2ff;">Daily Inquiry Digest</h2>
       <p>You have received <strong>${recentInquiries.length}</strong> new inquiries in the last 24 hours.</p>
       
-      ${recentInquiries.map((inq: any) => `
+      ${recentInquiries.map((inq: InquiryData) => `
         <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
           <h3 style="margin-top: 0; color: #0f172a;">${inq.product}</h3>
           <p><strong>Name:</strong> ${inq.name}</p>

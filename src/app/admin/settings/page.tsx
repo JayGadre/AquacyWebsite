@@ -49,10 +49,11 @@ export default function SettingsPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label htmlFor="emails">Admin Email Addresses</label>
-            <p className={styles.helpText}>Enter email addresses separated by commas. These addresses will receive the daily digest of new inquiries.</p>
+            <p id="emails-help" className={styles.helpText}>Enter email addresses separated by commas. These addresses will receive the daily digest of new inquiries.</p>
             <textarea 
               id="emails" 
               name="emails" 
+              aria-describedby="emails-help"
               rows={4} 
               value={emails}
               onChange={(e) => setEmails(e.target.value)}
