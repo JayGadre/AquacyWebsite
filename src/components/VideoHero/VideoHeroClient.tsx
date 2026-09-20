@@ -1,31 +1,39 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
-const SECTION_VH = 4; // scroll travel = 4× viewport height
+const TOTAL_FRAMES = 120;
+const SECTION_VH = 4; // scroll height = 4× viewport height
 
-function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
-function clamp(v: number, lo = 0, hi = 1) { return Math.max(lo, Math.min(hi, v)); }
-function smoothstep(x: number) { const t = clamp(x); return t * t * (3 - 2 * t); }
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
 
-/** 0→1→0 bell across [in, peak, out] */
+function clamp(v: number, lo = 0, hi = 1) {
+  return Math.max(lo, Math.min(hi, v));
+}
+
+function smoothstep(x: number) {
+  const t = clamp(x);
+  return t * t * (3 - 2 * t);
+}
+
+/** 0→1→0 bell curve across [in, peak, out] */
 function bell(p: number, i: number, pk: number, o: number) {
-  if (p <= i)  return 0;
-  if (p <= pk) return (p - i)  / (pk - i);
-  if (p <= o)  return (o - p)  / (o  - pk);
+  if (p <= i) return 0;
+  if (p <= pk) return (p - i) / (pk - i);
+  if (p <= o) return (o - p) / (o - pk);
   return 0;
 }
 
 export default function VideoHeroClient() {
-  // ── Refs ──────────────────────────────────────────────────────
   const wrapRef = useRef<HTMLDivElement>(null);
-  const vidRef  = useRef<HTMLVideoElement>(null);
-  const barRef  = useRef<HTMLDivElement>(null);
-  const dbgRef  = useRef<HTMLDivElement>(null); // debug overlay
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
 
-  // 5 text phases — individually named to avoid re-creating the array each render
+  // 5 text phases
   const ph0 = useRef<HTMLDivElement>(null);
   const ph1 = useRef<HTMLDivElement>(null);
   const ph2 = useRef<HTMLDivElement>(null);
@@ -33,20 +41,63 @@ export default function VideoHeroClient() {
   const ph4 = useRef<HTMLDivElement>(null);
 
   const targetP = useRef(0);
-  const curP    = useRef(0);
-  const rafId   = useRef(0);
-  const dur     = useRef(0);
-  const ready   = useRef(false);
+  const curP = useRef(0);
+  const rafId = useRef(0);
 
+  // Preloaded image element storage & progress
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Frame preloader
   useEffect(() => {
-    // ── Guard ─────────────────────────────────────────────────
-    const wrap  = wrapRef.current;
-    const video = vidRef.current;
-    if (!wrap || !video) { console.error("[VideoHero] refs not ready"); return; }
+    let loadedCount = 0;
+    const imgs: HTMLImageElement[] = new Array(TOTAL_FRAMES);
 
-    console.log("[VideoHero] mounted. section height:", wrap.offsetHeight, "vh:", SECTION_VH);
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new Image();
+      const numStr = String(i).padStart(4, "0");
+      img.src = `/frames/frame_${numStr}.webp`;
 
-    // ── Scroll → targetP ──────────────────────────────────────
+      img.onload = () => {
+        loadedCount++;
+        setLoadProgress(Math.floor((loadedCount / TOTAL_FRAMES) * 100));
+        if (loadedCount === TOTAL_FRAMES) {
+          setIsLoaded(true);
+        }
+      };
+
+      img.onerror = () => {
+        // Fallback for missing frames
+        loadedCount++;
+        if (loadedCount === TOTAL_FRAMES) {
+          setIsLoaded(true);
+        }
+      };
+
+      imgs[i - 1] = img;
+    }
+
+    imagesRef.current = imgs;
+  }, []);
+
+  // Main canvas animation loop & scroll listener
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const canvas = canvasRef.current;
+    if (!wrap || !canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Handle high DPI & canvas resize keeping aspect ratio cover
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
     const onScroll = () => {
       const rect = wrap.getBoundingClientRect();
       const scrollH = wrap.offsetHeight - window.innerHeight;
@@ -55,50 +106,65 @@ export default function VideoHeroClient() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // ── Apply phase div ───────────────────────────────────────
     const applyPhase = (el: HTMLDivElement | null, op: number, ty: number) => {
       if (!el) return;
-      el.style.opacity       = op.toFixed(4);
-      el.style.transform     = `translateY(${ty.toFixed(1)}px)`;
+      el.style.opacity = op.toFixed(4);
+      el.style.transform = `translateY(${ty.toFixed(1)}px)`;
       el.style.pointerEvents = op > 0.05 ? "auto" : "none";
     };
 
-    // ── rAF loop ──────────────────────────────────────────────
+    let lastDrawnIndex = -1;
+
+    const drawFrame = (frameIdx: number) => {
+      const img = imagesRef.current[frameIdx];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+
+      // Cover math
+      const scale = Math.max(cw / iw, ch / ih);
+      const nw = iw * scale;
+      const nh = ih * scale;
+      const nx = (cw - nw) / 2;
+      const ny = (ch - nh) / 2;
+
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, nx, ny, nw, nh);
+      lastDrawnIndex = frameIdx;
+    };
+
     const tick = () => {
-      curP.current = lerp(curP.current, targetP.current, 0.075);
+      curP.current = lerp(curP.current, targetP.current, 0.1);
       const p = curP.current;
 
-      // Video scrub
-      if (ready.current && dur.current > 0) {
-        const t = p * dur.current;
-        try {
-          if (typeof (video as { fastSeek?: (n: number) => void }).fastSeek === "function") {
-            (video as { fastSeek: (n: number) => void }).fastSeek(t);
-          } else {
-            video.currentTime = t;
-          }
-        } catch { /* non-fatal */ }
+      // Calculate frame index [0 .. TOTAL_FRAMES - 1]
+      const frameIdx = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.floor(p * TOTAL_FRAMES))
+      );
+
+      if (frameIdx !== lastDrawnIndex || canvas.width !== window.innerWidth) {
+        drawFrame(frameIdx);
       }
 
-      // Progress bar
-      if (barRef.current) barRef.current.style.width = `${(p * 100).toFixed(1)}%`;
-
-      // Debug overlay
-      if (dbgRef.current) {
-        dbgRef.current.textContent =
-          `scroll ${(p * 100).toFixed(1)}% | t=${(p * dur.current).toFixed(2)}s / ${dur.current.toFixed(2)}s | ready:${ready.current}`;
+      // Update progress bar
+      if (barRef.current) {
+        barRef.current.style.width = `${(p * 100).toFixed(1)}%`;
       }
 
       // Phase 0 — hero title
-      const op0 = smoothstep(p < 0.10 ? 1 - p / 0.10 : 0);
+      const op0 = smoothstep(p < 0.1 ? 1 - p / 0.1 : 0);
       applyPhase(ph0.current, op0, (1 - op0) * -20);
 
       // Phase 1: 0.08 → 0.18 → 0.30
-      const op1 = smoothstep(bell(p, 0.08, 0.18, 0.30));
+      const op1 = smoothstep(bell(p, 0.08, 0.18, 0.3));
       applyPhase(ph1.current, op1, (1 - op1) * 30);
 
       // Phase 2: 0.28 → 0.40 → 0.54
-      const op2 = smoothstep(bell(p, 0.28, 0.40, 0.54));
+      const op2 = smoothstep(bell(p, 0.28, 0.4, 0.54));
       applyPhase(ph2.current, op2, (1 - op2) * 30);
 
       // Phase 3: 0.54 → 0.65 → 0.76
@@ -111,79 +177,52 @@ export default function VideoHeroClient() {
 
       rafId.current = requestAnimationFrame(tick);
     };
+
     rafId.current = requestAnimationFrame(tick);
-
-    // ── Video readiness — enable as soon as metadata is known ─
-    const enable = () => {
-      if (video.duration && isFinite(video.duration) && !ready.current) {
-        dur.current   = video.duration;
-        ready.current = true;
-        video.pause();
-        video.currentTime = 0;
-        console.log("[VideoHero] video ready. duration:", video.duration);
-      }
-    };
-
-    if (video.readyState >= 1) enable(); // already has metadata (cached)
-    video.addEventListener("loadedmetadata", enable);
-    video.addEventListener("loadeddata",     enable);
-    video.addEventListener("canplay",        enable);
-
-    // Prevent autoplay (browser may start it)
-    const keepPaused = () => { video.pause(); };
-    video.addEventListener("play", keepPaused);
 
     return () => {
       cancelAnimationFrame(rafId.current);
+      window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", onScroll);
-      video.removeEventListener("loadedmetadata", enable);
-      video.removeEventListener("loadeddata",     enable);
-      video.removeEventListener("canplay",        enable);
-      video.removeEventListener("play",           keepPaused);
     };
-  }, []); // ← empty deps: run once on mount
+  }, []);
 
   return (
-    /*
-     * CRITICAL: This outer div must NOT have overflow:hidden/auto/scroll.
-     * Those values create a scroll container which BREAKS position:sticky.
-     * overflow:clip is safe — it clips without creating a scroll container.
-     * (Set on body/main via globals.css and layout.tsx.)
-     */
     <div ref={wrapRef} style={{ height: `${SECTION_VH * 100}vh` }}>
-
-      {/* Sticky viewport — overflow:hidden here is safe (on the sticky el itself) */}
-      <div className="sticky top-0 h-screen w-full" style={{ overflow: "hidden" }}>
-
-        {/* ── Video background ──────────────────────────────────── */}
-        <video
-          ref={vidRef}
-          src="/water-meter-disassembly.mp4"
-          className="absolute inset-0 w-full h-full object-cover"
-          muted
-          playsInline
-          preload="auto"
+      {/* Sticky Viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#020617]">
+        {/* Canvas background for smooth frame sequence */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+          style={{ opacity: isLoaded ? 1 : 0 }}
         />
 
-        {/* ── Dark gradient overlay — keep it LIGHT so video shows ── */}
+        {/* Loading Indicator before frames are ready */}
+        {!isLoaded && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#020617] text-slate-300 z-10">
+            <div className="w-12 h-12 border-2 border-[#0ea5e9] border-t-transparent rounded-full animate-spin mb-4" />
+            <p className="text-xs uppercase tracking-widest font-semibold text-slate-400">
+              Loading Experience ({loadProgress}%)
+            </p>
+          </div>
+        )}
+
+        {/* Gradient overlays for text contrast and section transition */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex: 1,
             background: [
-              // gentle top fade for text readability
-              "linear-gradient(to bottom, rgba(2,6,23,0.5) 0%, rgba(2,6,23,0.0) 30%)",
-              // bottom fade to blend into next section
+              "linear-gradient(to bottom, rgba(2,6,23,0.6) 0%, rgba(2,6,23,0.0) 30%)",
               "linear-gradient(to top, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.0) 30%)",
-              // very light center tint — VIDEO MUST BE CLEARLY VISIBLE
-              "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(2,6,23,0.1) 0%, rgba(2,6,23,0.45) 100%)",
+              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,6,23,0.15) 0%, rgba(2,6,23,0.5) 100%)",
             ].join(", "),
           }}
         />
 
-        {/* ── Text phases ───────────────────────────────────────── */}
+        {/* Text phases */}
         <div className="absolute inset-0" style={{ zIndex: 2 }}>
-
           {/* Phase 0 — Initial hero */}
           <div
             ref={ph0}
@@ -258,9 +297,9 @@ export default function VideoHeroClient() {
             </p>
             <div className="grid grid-cols-3 gap-12 md:gap-24">
               {[
-                { v: "3 Lakh+", l: "Meters Installed"  },
-                { v: "15+",     l: "Years Expertise"    },
-                { v: "33,000+", l: "EPC Contracts"      },
+                { v: "3 Lakh+", l: "Meters Installed" },
+                { v: "15+", l: "Years Expertise" },
+                { v: "33,000+", l: "EPC Contracts" },
               ].map(({ v, l }) => (
                 <div key={l} className="text-center">
                   <div className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none drop-shadow-[0_2px_30px_rgba(0,0,0,0.9)]">{v}</div>
@@ -302,18 +341,9 @@ export default function VideoHeroClient() {
           </div>
         </div>
 
-        {/* ── Progress bar ─────────────────────────────────────── */}
+        {/* Progress bar */}
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/[0.06]" style={{ zIndex: 3 }}>
           <div ref={barRef} className="h-full bg-gradient-to-r from-[#0ea5e9] to-[#38bdf8]" style={{ width: "0%", willChange: "width" }} />
-        </div>
-
-        {/* ── DEBUG overlay (bottom-right corner) ──────────────── */}
-        <div
-          ref={dbgRef}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[10px] text-white/60 bg-black/40 px-3 py-1 rounded-full"
-          style={{ zIndex: 10 }}
-        >
-          loading…
         </div>
       </div>
     </div>
