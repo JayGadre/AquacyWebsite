@@ -68,7 +68,6 @@ export default function VideoHeroClient() {
       };
 
       img.onerror = () => {
-        // Fallback for missing frames
         loadedCount++;
         if (loadedCount === TOTAL_FRAMES) {
           setIsLoaded(true);
@@ -90,7 +89,6 @@ export default function VideoHeroClient() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Handle high DPI & canvas resize keeping aspect ratio cover
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -140,7 +138,6 @@ export default function VideoHeroClient() {
       curP.current = lerp(curP.current, targetP.current, 0.1);
       const p = curP.current;
 
-      // Calculate frame index [0 .. TOTAL_FRAMES - 1]
       const frameIdx = Math.min(
         TOTAL_FRAMES - 1,
         Math.max(0, Math.floor(p * TOTAL_FRAMES))
@@ -150,7 +147,6 @@ export default function VideoHeroClient() {
         drawFrame(frameIdx);
       }
 
-      // Update progress bar
       if (barRef.current) {
         barRef.current.style.width = `${(p * 100).toFixed(1)}%`;
       }
@@ -208,15 +204,14 @@ export default function VideoHeroClient() {
           </div>
         )}
 
-        {/* Gradient overlays for text contrast and section transition */}
+        {/* Gradient overlays for high text contrast */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex: 1,
             background: [
-              "linear-gradient(to bottom, rgba(2,6,23,0.6) 0%, rgba(2,6,23,0.0) 30%)",
-              "linear-gradient(to top, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.0) 30%)",
-              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,6,23,0.15) 0%, rgba(2,6,23,0.5) 100%)",
+              "linear-gradient(to bottom, rgba(2,6,23,0.7) 0%, rgba(2,6,23,0.2) 40%, rgba(2,6,23,0.7) 100%)",
+              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(2,6,23,0.3) 0%, rgba(2,6,23,0.75) 100%)",
             ].join(", "),
           }}
         />
@@ -229,23 +224,23 @@ export default function VideoHeroClient() {
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 select-none"
             style={{ willChange: "opacity, transform" }}
           >
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-pill text-[#38bdf8] text-xs font-semibold uppercase tracking-widest mb-8">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-pill text-[#38bdf8] text-xs font-bold uppercase tracking-widest mb-8 border border-sky-400/40 bg-slate-900/60 shadow-lg">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute h-full w-full rounded-full bg-[#38bdf8] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0ea5e9]" />
+                <span className="animate-ping absolute h-full w-full rounded-full bg-sky-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500" />
               </span>
               Authorised Channel Partner · ADM Meters Italy
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-[6.5rem] font-extrabold text-white tracking-[-0.02em] leading-[1.04] drop-shadow-[0_2px_30px_rgba(0,0,0,0.9)]">
+            <h1 className="text-5xl md:text-7xl lg:text-[6.5rem] font-extrabold text-white tracking-[-0.02em] leading-[1.04] drop-shadow-[0_4px_35px_rgba(0,0,0,0.95)]">
               Smart Water<br />
               <span className="text-gradient-cyan">Metering</span>
             </h1>
-            <p className="mt-7 text-lg md:text-xl text-slate-200 max-w-lg mx-auto leading-relaxed font-light drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]">
-              Scroll to explore the engineering inside every meter.
+            <p className="mt-7 text-lg md:text-xl text-slate-100 max-w-lg mx-auto leading-relaxed font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+              Scroll to explore the high-precision engineering inside every meter.
             </p>
-            <div className="mt-12 flex flex-col items-center gap-1 text-slate-400 text-xs tracking-widest uppercase animate-bounce">
-              <ChevronDown aria-hidden="true" className="w-5 h-5" />
-              <span>Scroll</span>
+            <div className="mt-12 flex flex-col items-center gap-1 text-slate-300 text-xs font-bold tracking-widest uppercase animate-bounce drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              <ChevronDown aria-hidden="true" className="w-5 h-5 text-sky-400" />
+              <span>Scroll to Explore</span>
             </div>
           </div>
 
@@ -255,13 +250,13 @@ export default function VideoHeroClient() {
             className="absolute inset-0 flex flex-col items-start justify-end pb-20 px-8 md:px-24 select-none"
             style={{ opacity: 0, pointerEvents: "none", willChange: "opacity, transform" }}
           >
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0ea5e9] mb-3">
-              01 — Assembly
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-sky-400 mb-3 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              01 — Assembly &amp; Tolerances
             </p>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight max-w-2xl drop-shadow-[0_2px_30px_rgba(0,0,0,0.9)]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight max-w-2xl drop-shadow-[0_4px_35px_rgba(0,0,0,0.95)]">
               Precision<br />Engineering
             </h2>
-            <p className="mt-5 text-slate-200 text-base md:text-lg max-w-md leading-relaxed font-light drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]">
+            <p className="mt-5 text-slate-100 text-base md:text-lg max-w-md leading-relaxed font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
               Each ADM meter is machined from aerospace-grade alloys with
               sub-micron tolerances — built for 15+ years of maintenance-free operation.
             </p>
@@ -273,14 +268,14 @@ export default function VideoHeroClient() {
             className="absolute inset-0 flex flex-col items-center justify-center px-6 select-none"
             style={{ opacity: 0, pointerEvents: "none", willChange: "opacity, transform" }}
           >
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#38bdf8] mb-5">
-              02 — Calibration
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-sky-400 mb-5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              02 — Calibration Standard
             </p>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl text-center drop-shadow-[0_2px_30px_rgba(0,0,0,0.9)]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl text-center drop-shadow-[0_4px_35px_rgba(0,0,0,0.95)]">
               Every Component,<br />
               <span className="text-gradient-cyan">Perfectly Calibrated</span>
             </h2>
-            <p className="mt-7 text-slate-200 text-base md:text-lg max-w-xl text-center leading-relaxed font-light drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]">
+            <p className="mt-7 text-slate-100 text-base md:text-lg max-w-xl text-center leading-relaxed font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
               ±1% accuracy across the full dynamic flow range.
               Certified to ISO 4064 Class C and IS 778 standards.
             </p>
@@ -292,22 +287,22 @@ export default function VideoHeroClient() {
             className="absolute inset-0 flex flex-col items-center justify-center px-6 select-none"
             style={{ opacity: 0, pointerEvents: "none", willChange: "opacity, transform" }}
           >
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#38bdf8] mb-12">
-              03 — Scale
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-sky-400 mb-12 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              03 — Scale &amp; Proven Track Record
             </p>
-            <div className="grid grid-cols-3 gap-12 md:gap-24">
+            <div className="grid grid-cols-3 gap-8 md:gap-20">
               {[
                 { v: "3 Lakh+", l: "Meters Installed" },
                 { v: "15+", l: "Years Expertise" },
                 { v: "33,000+", l: "EPC Contracts" },
               ].map(({ v, l }) => (
                 <div key={l} className="text-center">
-                  <div className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none drop-shadow-[0_2px_30px_rgba(0,0,0,0.9)]">{v}</div>
-                  <div className="mt-3 text-slate-300 text-[10px] md:text-xs uppercase tracking-[0.25em] font-semibold">{l}</div>
+                  <div className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]">{v}</div>
+                  <div className="mt-3 text-sky-300 text-[10px] md:text-xs uppercase tracking-[0.25em] font-bold drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">{l}</div>
                 </div>
               ))}
             </div>
-            <p className="mt-12 text-slate-200 text-base max-w-lg text-center leading-relaxed font-light drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]">
+            <p className="mt-12 text-slate-100 text-base max-w-lg text-center leading-relaxed font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
               Trusted by municipal boards, EPC contractors, and industrial plants across Pan-India.
             </p>
           </div>
@@ -318,23 +313,23 @@ export default function VideoHeroClient() {
             className="absolute inset-0 flex flex-col items-center justify-center px-6 select-none"
             style={{ opacity: 0, pointerEvents: "none", willChange: "opacity, transform" }}
           >
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#38bdf8] mb-5">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-sky-400 mb-5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
               Trusted · Certified · Reliable
             </p>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl text-center mb-6 drop-shadow-[0_2px_30px_rgba(0,0,0,0.9)]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl text-center mb-6 drop-shadow-[0_4px_35px_rgba(0,0,0,0.95)]">
               Built to Last.<br />
               <span className="text-gradient-cyan">Measured to Matter.</span>
             </h2>
-            <p className="text-slate-200 text-base md:text-lg max-w-xl text-center leading-relaxed font-light mb-12 drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]">
+            <p className="text-slate-100 text-base md:text-lg max-w-xl text-center leading-relaxed font-normal mb-12 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
               Upgrade your water infrastructure with India&apos;s most reliable
               ADM metering solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/catalog" className="btn btn-primary text-base px-9 py-4 shadow-[0_0_30px_rgba(14,165,233,0.45)] group">
+              <Link href="/catalog" className="btn btn-primary text-base px-9 py-4 shadow-[0_0_30px_rgba(14,165,233,0.45)] group font-bold">
                 <span>Explore Products</span>
                 <ArrowRight aria-hidden="true" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/contact" className="btn btn-glass bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 text-base px-9 py-4">
+              <Link href="/contact" className="btn btn-glass bg-slate-900/80 backdrop-blur-md border border-white/30 hover:bg-slate-900 text-white text-base px-9 py-4 font-bold">
                 Contact Sales
               </Link>
             </div>
@@ -342,8 +337,8 @@ export default function VideoHeroClient() {
         </div>
 
         {/* Progress bar */}
-        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/[0.06]" style={{ zIndex: 3 }}>
-          <div ref={barRef} className="h-full bg-gradient-to-r from-[#0ea5e9] to-[#38bdf8]" style={{ width: "0%", willChange: "width" }} />
+        <div className="absolute bottom-0 left-0 w-full h-[3px] bg-white/10" style={{ zIndex: 3 }}>
+          <div ref={barRef} className="h-full bg-gradient-to-r from-sky-400 to-teal-400" style={{ width: "0%", willChange: "width" }} />
         </div>
       </div>
     </div>
