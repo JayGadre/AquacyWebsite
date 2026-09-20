@@ -9,21 +9,49 @@
   --font-sans: var(--font-sans);
 }
 
-:root {
+:root,
+[data-theme="light"] {
+  /* Aquacy Logo Light Theme Palette */
+  --background: #f8fafc; /* Crisp clean off-white background */
+  --foreground: #0f172a; /* Deep slate font color */
+
+  --primary: #0284c7; /* Royal Blue from logo triangle */
+  --primary-hover: #0369a1;
+  --primary-glow: rgba(2, 132, 199, 0.25);
+  --secondary: #0d9488; /* Teal / Turquoise from logo wave */
+  --secondary-hover: #0f766e;
+
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.7) 100%);
+  --glass-bg-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.85) 100%);
+  --glass-border: rgba(2, 132, 199, 0.15);
+  --glass-border-highlight: rgba(13, 148, 136, 0.25);
+  --glass-glow: rgba(2, 132, 199, 0.15);
+
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
   --background: #020617; /* Deep midnight navy */
   --foreground: #f8fafc; /* Off-white */
-  
+
   --primary: #0ea5e9; /* Aqua Blue */
   --primary-hover: #38bdf8;
   --primary-glow: rgba(14, 165, 233, 0.4);
   --secondary: #0f172a; /* Slate 900 */
-  
+  --secondary-hover: #1e293b;
+
   --glass-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.45) 100%);
   --glass-bg-hover: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.55) 100%);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-border-highlight: rgba(255, 255, 255, 0.18);
   --glass-glow: rgba(14, 165, 233, 0.25);
-  
+
+  --card-bg: rgba(15, 23, 42, 0.75);
+  --card-border: rgba(255, 255, 255, 0.08);
+
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
